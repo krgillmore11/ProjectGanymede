@@ -2,11 +2,11 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 //Handles all ingame Movment for player character
+//ADD SOUNDS AND CHANGE HEARING DISTANCE FOR ENEMY
 
 public class PlayerController : MonoBehaviour{
     private PlayerInput input;
     private Rigidbody rb;
-    
     private bool sprinting;
     private bool grounded;
     private Transform playerCam;
@@ -22,24 +22,22 @@ public class PlayerController : MonoBehaviour{
         rb = GetComponent<Rigidbody>();
         input = new PlayerInput();
         playerCam = transform.Find("Player Camera"); 
-        //Cursor.lockState = CursorLockMode.Locked;//Lock cursor off screen
+        Cursor.lockState = CursorLockMode.Locked;//Lock cursor off screen
         input.Player.Sprint.performed += SprintToggle; 
     }
 
-    // Update is called once per frame
-    void FixedUpdate(){  //Use for physics and rb.  dont waste two days ficking with your code oagaubn
+    void FixedUpdate(){  //Use for physics and rb.  dont waste two days ficking with your code agiain
         CameraRotation();    
           
-        //Get movement
+        //Get movement input
         Vector2 moveInput = input.Player.Move.ReadValue<Vector2>();
-        Debug.Log("Move Input: " + moveInput);
 
+        //set move direction to camera
         Vector3 moveDirection = (playerCam.forward * moveInput.y) + (playerCam.right * moveInput.x);
-        moveDirection.y = 0f; //disables vertical movment when not jumping, do I need this?
-        Debug.DrawRay(transform.position, moveDirection.normalized * 2f, Color.green);
+        moveDirection.y = 0f; //disables vertical movement when not jumping, do I need this?
 
-
-        //apply movement
+        //apply movement forces
+        //sprinting
         float currentMoveSpeed;
         if (sprinting){
             currentMoveSpeed = movementSpeed * sprintMultiplier;
@@ -47,14 +45,24 @@ public class PlayerController : MonoBehaviour{
         else{
             currentMoveSpeed = movementSpeed;
         }
-        rb.velocity = moveDirection.normalized * currentMoveSpeed;
+
+        //use addforce so it works w gravity
+        //Apply force for movement only if there is input
+        Vector3 horizontalForce = moveDirection.normalized * currentMoveSpeed;
+        if (moveDirection.magnitude > 0f){
+        rb.AddForce(horizontalForce, ForceMode.Acceleration);
+        } 
+        else{
+        //apply stoppping force to avoid ice rink
+        Vector3 oppositeVelocity = -rb.velocity;
+        oppositeVelocity.y = 0f; //Ignore vertical velocity
+        rb.AddForce(oppositeVelocity.normalized * currentMoveSpeed * 2f, ForceMode.Acceleration);
+        }
 
         //jump
         if(input.Player.Jump.triggered && grounded){
-            rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * jumpHeight / Time.fixedDeltaTime, ForceMode.Impulse);
         }
-
-        Debug.Log("Grounded: " + grounded);
     }
 
     void Update(){
@@ -70,8 +78,6 @@ public class PlayerController : MonoBehaviour{
         float mouseX = lookInput.x * mouseSensitivity;
         float mouseY = lookInput.y * mouseSensitivity;
 
-        Debug.Log("Mouse X: " + mouseX + " | Mouse Y: " + mouseY);
-
         //apply it
         rotationX -= mouseY;
         rotationX = Mathf.Clamp(rotationX, -90f, 90f);
@@ -82,12 +88,12 @@ public class PlayerController : MonoBehaviour{
     private void SprintToggle(InputAction.CallbackContext context){
         if (context.performed){
             sprinting = !sprinting;
-            Debug.Log("Sprinting: " + sprinting);
         }
     }
 
     private void Interact(){
         //interact stuff
+        Debug.Log("interaction completed");
     }
 
     private void OnCollisionEnter(Collision collision){
@@ -101,8 +107,6 @@ public class PlayerController : MonoBehaviour{
             grounded = false;
         }
     }
-
-    
 
     private void OnEnable(){
         input.Enable();
