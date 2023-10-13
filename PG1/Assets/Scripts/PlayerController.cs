@@ -28,7 +28,8 @@ public class PlayerController : MonoBehaviour{
 
     void FixedUpdate(){  //Use for physics and rb.  dont waste two days ficking with your code agiain
         CameraRotation();    
-          
+        
+
         //Get movement input
         Vector2 moveInput = input.Player.Move.ReadValue<Vector2>();
 
@@ -49,7 +50,7 @@ public class PlayerController : MonoBehaviour{
         //use addforce so it works w gravity
         //Apply force for movement only if there is input
         Vector3 horizontalForce = moveDirection.normalized * currentMoveSpeed;
-        if (moveDirection.magnitude > 0f){
+        if (moveDirection.magnitude > .1f){
         rb.AddForce(horizontalForce, ForceMode.Acceleration);
         } 
         else{
