@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour{
     private Rigidbody rb;
     private bool sprinting;
     private bool grounded;
-    private Transform playerCam;
+    public Transform playerCam;
     private float rotationX = 0f;
     private Vector2 lookInput;
 
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour{
     void Awake(){//Awake is good for setting up references
         rb = GetComponent<Rigidbody>();
         input = new PlayerInput();
-        playerCam = transform.Find("Player Camera"); 
+        //playerCam = transform.Find("Player Camera"); 
         Cursor.lockState = CursorLockMode.Locked;//Lock cursor off screen
         input.Player.Sprint.performed += SprintToggle; 
     }
