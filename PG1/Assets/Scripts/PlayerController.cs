@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour{
     public Transform playerCam;
     private float rotationX = 0f;
     private Vector2 lookInput;
+    [SerializeField] Transform arms;
 
     [SerializeField] float movementSpeed = 5f;
     [SerializeField] float jumpHeight = 7f;
@@ -76,13 +77,14 @@ public class PlayerController : MonoBehaviour{
     private void CameraRotation(){
         //get rotation from cam
         lookInput = input.Player.Look.ReadValue<Vector2>();
-        float mouseX = lookInput.x * mouseSensitivity;
-        float mouseY = lookInput.y * mouseSensitivity;
+        float mouseX = lookInput.x * mouseSensitivity * Time.deltaTime;
+        float mouseY = lookInput.y * mouseSensitivity * Time.deltaTime;
 
         //apply it
         rotationX -= mouseY;
         rotationX = Mathf.Clamp(rotationX, -90f, 90f);
         playerCam.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
+        arms.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
         transform.Rotate(Vector3.up, mouseX);
     }
 
