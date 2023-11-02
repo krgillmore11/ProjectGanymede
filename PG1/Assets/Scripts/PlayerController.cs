@@ -14,10 +14,12 @@ public class PlayerController : MonoBehaviour{
     private Vector2 lookInput;
     [SerializeField] Transform arms;
 
-    [SerializeField] float movementSpeed = 5f;
+    [SerializeField] float baseMoveSpeed = 5f;
     [SerializeField] float jumpHeight = 7f;
     [SerializeField] float sprintMultiplier = 1.5f;
     [SerializeField] float mouseSensitivity = 2f;
+    [SerializeField] float deceleration = 2f;
+    [SerializeField] float maxSpeed = 1f;
 
     void Awake(){//Awake is good for setting up references
         rb = GetComponent<Rigidbody>();
@@ -29,8 +31,9 @@ public class PlayerController : MonoBehaviour{
 
     void FixedUpdate(){  //Use for physics and rb.  dont waste two days ficking with your code agiain
         CameraRotation();    
-        
 
+        //Debug.Log(rb.velocity);
+        
         //Get movement input
         Vector2 moveInput = input.Player.Move.ReadValue<Vector2>();
 
@@ -42,28 +45,43 @@ public class PlayerController : MonoBehaviour{
         //sprinting
         float currentMoveSpeed;
         if (sprinting){
-            currentMoveSpeed = movementSpeed * sprintMultiplier;
+            currentMoveSpeed = baseMoveSpeed * sprintMultiplier;
         }
         else{
-            currentMoveSpeed = movementSpeed;
+            currentMoveSpeed = baseMoveSpeed;
         }
+        Vector3 horizontalForce = moveDirection.normalized * currentMoveSpeed;
+
+        //Calculate velocity change to max
+        Vector3 velocityChange = (horizontalForce - rb.velocity);
+        velocityChange.x = Mathf.Clamp(velocityChange.x, -currentMoveSpeed, currentMoveSpeed);
+        velocityChange.z = Mathf.Clamp(velocityChange.z, -currentMoveSpeed, currentMoveSpeed);
 
         //use addforce so it works w gravity
         //Apply force for movement only if there is input
-        Vector3 horizontalForce = moveDirection.normalized * currentMoveSpeed;
         if (moveDirection.magnitude > .1f){
-        rb.AddForce(horizontalForce, ForceMode.Acceleration);
+        rb.AddForce(velocityChange, ForceMode.VelocityChange);
         } 
         else{
         //apply stoppping force to avoid ice rink
         Vector3 oppositeVelocity = -rb.velocity;
         oppositeVelocity.y = 0f; //Ignore vertical velocity
-        rb.AddForce(oppositeVelocity.normalized * currentMoveSpeed * 2f, ForceMode.Acceleration);
+        rb.AddForce(oppositeVelocity * currentMoveSpeed * deceleration, ForceMode.Acceleration);
         }
 
         //jump
         if(input.Player.Jump.triggered && grounded){
             rb.AddForce(Vector3.up * jumpHeight / Time.fixedDeltaTime, ForceMode.Impulse);
+        }
+
+        //exceeding speed along the horizontal plane
+        Vector3 horizontalVelocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        float exceedingSpeed = horizontalVelocity.magnitude - maxSpeed;
+
+        //if the character is moving too fast, apply a counteracting force
+        if (exceedingSpeed > 0f){
+        Vector3 counteractingForce = horizontalVelocity.normalized * exceedingSpeed /* deceleration*/;
+        rb.AddForce(counteractingForce, ForceMode.Acceleration);
         }
     }
 
