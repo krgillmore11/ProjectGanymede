@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour{
     private float rotationX = 0f;
     private Vector2 lookInput;
     [SerializeField] Transform arms;
+    public Camera cameraObject;
 
     [SerializeField] float baseMoveSpeed = 5f;
     [SerializeField] float jumpHeight = 7f;
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour{
     [SerializeField] float mouseSensitivity = 2f;
     [SerializeField] float deceleration = 2f;
     [SerializeField] float maxSpeed = 1f;
+    [SerializeField] float interactDistance = 3f;
 
     void Awake(){//Awake is good for setting up references
         rb = GetComponent<Rigidbody>();
@@ -38,7 +40,7 @@ public class PlayerController : MonoBehaviour{
         Vector2 moveInput = input.Player.Move.ReadValue<Vector2>();
 
         //set move direction to camera
-        Vector3 moveDirection = (playerCam.forward * moveInput.y) + (playerCam.right * moveInput.x);
+        Vector3 moveDirection = (transform.forward * moveInput.y) + (transform.right * moveInput.x);
         moveDirection.y = 0f; //disables vertical movement when not jumping, do I need this?
 
         //apply movement forces
@@ -56,10 +58,11 @@ public class PlayerController : MonoBehaviour{
         Vector3 velocityChange = (horizontalForce - rb.velocity);
         velocityChange.x = Mathf.Clamp(velocityChange.x, -currentMoveSpeed, currentMoveSpeed);
         velocityChange.z = Mathf.Clamp(velocityChange.z, -currentMoveSpeed, currentMoveSpeed);
+        velocityChange.y = 0f;
 
         //use addforce so it works w gravity
         //Apply force for movement only if there is input
-        if (moveDirection.magnitude > .1f){
+        if (moveDirection.magnitude > .1f ){
         rb.AddForce(velocityChange, ForceMode.VelocityChange);
         } 
         else{
@@ -75,14 +78,16 @@ public class PlayerController : MonoBehaviour{
         }
 
         //exceeding speed along the horizontal plane
+        /*
         Vector3 horizontalVelocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         float exceedingSpeed = horizontalVelocity.magnitude - maxSpeed;
 
         //if the character is moving too fast, apply a counteracting force
         if (exceedingSpeed > 0f){
-        Vector3 counteractingForce = horizontalVelocity.normalized * exceedingSpeed /* deceleration*/;
+        Vector3 counteractingForce = horizontalVelocity.normalized * exceedingSpeed;
         rb.AddForce(counteractingForce, ForceMode.Acceleration);
         }
+        */
     }
 
     void Update(){
@@ -113,8 +118,16 @@ public class PlayerController : MonoBehaviour{
     }
 
     private void Interact(){
-        //interact stuff
-        Debug.Log("interaction completed");
+        Debug.Log("interaction completed");     
+        Ray ray = new Ray(cameraObject.transform.position, cameraObject.transform.forward);//ray shooting directly from camera
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, interactDistance)){
+            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+            if(interactable != null){
+                interactable.Interact();
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision){
