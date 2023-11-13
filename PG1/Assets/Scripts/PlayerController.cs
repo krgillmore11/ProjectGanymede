@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour{
     private Vector2 lookInput;
     [SerializeField] Transform arms;
     public Camera cameraObject;
+    
 
     [SerializeField] float baseMoveSpeed = 5f;
     [SerializeField] float jumpHeight = 7f;
@@ -95,6 +96,10 @@ public class PlayerController : MonoBehaviour{
         if(input.Player.Interact.triggered){
             Interact();
         }
+
+        if(input.Player.Attack.triggered){
+            Attack();
+        }
     }
 
     private void CameraRotation(){
@@ -128,6 +133,10 @@ public class PlayerController : MonoBehaviour{
                 interactable.Interact();
             }
         }
+    }
+
+    private void Attack(){
+        
     }
 
     private void OnCollisionEnter(Collision collision){

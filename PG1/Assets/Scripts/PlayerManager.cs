@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+public class PlayerManager : MonoBehaviour
 {
     [SerializeField] int health;
     [SerializeField] int damage;
@@ -11,11 +12,11 @@ public class EnemyManager : MonoBehaviour
         return damage;
     }
     void OnTriggerEnter(Collider col){
-        PlayerManager playerCol = col.gameObject.GetComponent<PlayerManager>();
+        EnemyManager enemyCol = col.gameObject.GetComponent<EnemyManager>();
 
-        if (playerCol != null){
-            int playerDamage = playerCol.getDamage();
-            TakeDamage(playerDamage);
+        if (enemyCol != null){
+            int enemyDamage = enemyCol.getDamage();
+            TakeDamage(enemyDamage);
         }
     }
 
