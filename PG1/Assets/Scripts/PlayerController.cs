@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 //Handles all ingame Movment for player character
 //ADD SOUNDS AND CHANGE HEARING DISTANCE FOR ENEMY
@@ -12,6 +13,8 @@ public class PlayerController : MonoBehaviour{
     public Transform playerCam;
     private float rotationX = 0f;
     private Vector2 lookInput;
+    private Animator anim;
+
     [SerializeField] Transform arms;
     public Camera cameraObject;
     
@@ -27,6 +30,7 @@ public class PlayerController : MonoBehaviour{
     void Awake(){//Awake is good for setting up references
         rb = GetComponent<Rigidbody>();
         input = new PlayerInput();
+        anim = GetComponentInChildren<Animator>();
         //playerCam = transform.Find("Player Camera"); 
         Cursor.lockState = CursorLockMode.Locked;//Lock cursor off screen
         input.Player.Sprint.performed += SprintToggle; 
@@ -34,6 +38,7 @@ public class PlayerController : MonoBehaviour{
 
     void FixedUpdate(){  //Use for physics and rb.  dont waste two days ficking with your code agiain
         CameraRotation();    
+
 
         //Debug.Log(rb.velocity);
         
@@ -89,6 +94,7 @@ public class PlayerController : MonoBehaviour{
         rb.AddForce(counteractingForce, ForceMode.Acceleration);
         }
         */
+        HandleAnimation(moveDirection);
     }
 
     void Update(){
@@ -116,9 +122,23 @@ public class PlayerController : MonoBehaviour{
         transform.Rotate(Vector3.up, mouseX);
     }
 
+    private void HandleAnimation(Vector3 moveDir){
+        if(moveDir != Vector3.zero && !sprinting){
+            anim.SetFloat("Speed", .25f);
+        }
+        else if(moveDir != Vector3.zero && sprinting){
+            anim.SetFloat("Speed", .5f);
+            Debug.Log("animSprintPlaying");
+        }
+        else{
+            anim.SetFloat("Speed", 0f);
+        }
+    }
+
     private void SprintToggle(InputAction.CallbackContext context){
         if (context.performed){
             sprinting = !sprinting;
+            Debug.Log(sprinting);
         }
     }
 
