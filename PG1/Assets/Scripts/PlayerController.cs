@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -8,8 +9,9 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour{
     private PlayerInput input;
     private Rigidbody rb;
-    private bool sprinting;
+    private bool sprinting = false;
     private bool grounded;
+    public bool isPlayingAnimation = false;
     public Transform playerCam;
     private float rotationX = 0f;
     private Vector2 lookInput;
@@ -98,14 +100,28 @@ public class PlayerController : MonoBehaviour{
     }
 
     void Update(){
-        //interaction
-        if(input.Player.Interact.triggered){
-            Interact();
-        }
+        Interaction();
+        Debug.Log(isPlayingAnimation);
+    }
 
-        if(input.Player.Attack.triggered){
-            Attack();
+    private void Interaction(){
+        if (!isPlayingAnimation){
+            if(input.Player.Interact.triggered){
+                Interact();
+                isPlayingAnimation = true;
+            }
+
+            if(input.Player.Attack.triggered){
+                Shoot();
+                isPlayingAnimation = true;
+            }
+
+            if(input.Player.Attack2.triggered){
+                Punch();
+                isPlayingAnimation = true;
+            }
         }
+        
     }
 
     private void CameraRotation(){
@@ -124,39 +140,44 @@ public class PlayerController : MonoBehaviour{
 
     private void HandleAnimation(Vector3 moveDir){
         if(moveDir != Vector3.zero && !sprinting){
-            anim.SetFloat("Speed", .25f);
+            anim.SetFloat("Speed", .25f, .2f, Time.deltaTime);
         }
         else if(moveDir != Vector3.zero && sprinting){
-            anim.SetFloat("Speed", .5f);
-            Debug.Log("animSprintPlaying");
+            anim.SetFloat("Speed", .5f, .2f, Time.deltaTime);
+            //Debug.Log("animSprintPlaying");
         }
         else{
-            anim.SetFloat("Speed", 0f);
+            anim.SetFloat("Speed", 0f, .2f, Time.deltaTime);
         }
     }
 
     private void SprintToggle(InputAction.CallbackContext context){
         if (context.performed){
             sprinting = !sprinting;
-            Debug.Log(sprinting);
+            //Debug.Log(sprinting);
         }
     }
 
     private void Interact(){
-        Debug.Log("interaction completed");     
+        //Debug.Log("interaction completed");     
         Ray ray = new Ray(cameraObject.transform.position, cameraObject.transform.forward);//ray shooting directly from camera
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, interactDistance)){
             IInteractable interactable = hit.collider.GetComponent<IInteractable>();
             if(interactable != null){
+                anim.SetTrigger("Interact");
                 interactable.Interact();
             }
         }
     }
 
-    private void Attack(){
-        
+    private void Shoot(){
+        anim.SetTrigger("Shoot");
+    }
+
+    private void Punch(){
+        anim.SetTrigger("Punch");
     }
 
     private void OnCollisionEnter(Collision collision){
