@@ -4,8 +4,24 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField] int health;
-    [SerializeField] int damage;
+    //public Camera cameraObject;
+
+    [SerializeField] int health = 100;
+    [SerializeField] int damage = 100;
+    [SerializeField] float shootRange = 100f;
+
+    /*public void Shoot(){
+            Ray ray = new Ray(cameraObject.transform.position, cameraObject.transform.forward);//ray shooting directly from camera
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, shootRange)){
+                PlayerManager player = hit.collider.GetComponent<PlayerManager>();
+
+                if (player != null){
+                    player.TakeDamage(damage);
+                }
+            }
+        }*/
 
     public int getDamage(){
         return damage;
@@ -19,7 +35,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    void TakeDamage(int damage){
+    public void TakeDamage(int damage){
         health -= damage;
 
         if (health <= 0){
@@ -28,6 +44,6 @@ public class EnemyManager : MonoBehaviour
     }
 
     void Die(){
-        
+        Destroy(gameObject);
     }
 }

@@ -16,6 +16,12 @@ public class PlayerController : MonoBehaviour{
     private float rotationX = 0f;
     private Vector2 lookInput;
     private Animator anim;
+    public AudioSource walkSource;
+    private AudioSource aSource;
+    private float lastStepTime;
+    private PlayerManager pm;
+   
+
 
     [SerializeField] Transform arms;
     public Camera cameraObject;
@@ -28,8 +34,20 @@ public class PlayerController : MonoBehaviour{
     [SerializeField] float deceleration = 2f;
     [SerializeField] float maxSpeed = 1f;
     [SerializeField] float interactDistance = 3f;
+    [SerializeField] float stepCoolDown = 0.5f;
+    [SerializeField] AudioClip walkingSound;
+    [SerializeField] AudioClip runningSound;
+    [SerializeField] AudioClip shootingSound;
+    [SerializeField] AudioClip punchingSound;
+    [SerializeField] AudioClip interactingSound;
 
     void Awake(){//Awake is good for setting up references
+
+        pm = GetComponent<PlayerManager>();
+        //walkSource = GetComponentInChildren<AudioSource>();
+        aSource = GetComponent<AudioSource>();
+        //stepSource.enabled = false;
+
         rb = GetComponent<Rigidbody>();
         input = new PlayerInput();
         anim = GetComponentInChildren<Animator>();
@@ -38,9 +56,9 @@ public class PlayerController : MonoBehaviour{
         input.Player.Sprint.performed += SprintToggle; 
     }
 
-    void FixedUpdate(){  //Use for physics and rb.  dont waste two days ficking with your code agiain
+    void FixedUpdate(){  //Use for physics and rb ONLY
         CameraRotation();    
-
+        PlaySounds();
 
         //Debug.Log(rb.velocity);
         
@@ -83,6 +101,7 @@ public class PlayerController : MonoBehaviour{
         //jump
         if(input.Player.Jump.triggered && grounded){
             rb.AddForce(Vector3.up * jumpHeight / Time.fixedDeltaTime, ForceMode.Impulse);
+            anim.SetTrigger("Jump");
         }
 
         //exceeding speed along the horizontal plane
@@ -101,14 +120,40 @@ public class PlayerController : MonoBehaviour{
 
     void Update(){
         Interaction();
-        Debug.Log(isPlayingAnimation);
+    }
+
+    void PlaySounds(){
+        if((rb.velocity.x > .1f || rb.velocity.x < -.1f || rb.velocity.y > .1f || rb.velocity.y < -.1f) && grounded){
+                AudioClip steps;
+                if(sprinting){
+                    steps = runningSound;
+                
+                }
+                else{
+                    steps = walkingSound;
+                }
+                if (walkSource.clip != steps || !walkSource.isPlaying){
+   
+                    walkSource.Stop();
+
+                    walkSource.clip = steps;
+                    walkSource.Play();
+        }
+    }
+    else
+    {
+    
+        if (walkSource.isPlaying)
+        {
+            walkSource.Stop();
+        }
+    }
     }
 
     private void Interaction(){
         if (!isPlayingAnimation){
             if(input.Player.Interact.triggered){
                 Interact();
-                isPlayingAnimation = true;
             }
 
             if(input.Player.Attack.triggered){
@@ -166,7 +211,9 @@ public class PlayerController : MonoBehaviour{
         if (Physics.Raycast(ray, out hit, interactDistance)){
             IInteractable interactable = hit.collider.GetComponent<IInteractable>();
             if(interactable != null){
+                isPlayingAnimation = true;
                 anim.SetTrigger("Interact");
+                aSource.PlayOneShot(interactingSound);
                 interactable.Interact();
             }
         }
@@ -174,10 +221,14 @@ public class PlayerController : MonoBehaviour{
 
     private void Shoot(){
         anim.SetTrigger("Shoot");
+        aSource.PlayOneShot(shootingSound);
+        pm.Shoot();
     }
 
     private void Punch(){
         anim.SetTrigger("Punch");
+        aSource.PlayOneShot(punchingSound);
+        pm.Punch();
     }
 
     private void OnCollisionEnter(Collision collision){
