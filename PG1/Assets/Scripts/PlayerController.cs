@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour{
     private AudioSource aSource;
     private float lastStepTime;
     private PlayerManager pm;
+    private ObjectPickup op;
    
 
 
@@ -42,6 +43,8 @@ public class PlayerController : MonoBehaviour{
     [SerializeField] AudioClip interactingSound;
 
     void Awake(){//Awake is good for setting up references
+
+        op = GetComponent<ObjectPickup>();
 
         pm = GetComponent<PlayerManager>();
         //walkSource = GetComponentInChildren<AudioSource>();
@@ -100,6 +103,7 @@ public class PlayerController : MonoBehaviour{
 
         //jump
         if(input.Player.Jump.triggered && grounded){
+            grounded = false;
             rb.AddForce(Vector3.up * jumpHeight / Time.fixedDeltaTime, ForceMode.Impulse);
             anim.SetTrigger("Jump");
         }
@@ -156,14 +160,13 @@ public class PlayerController : MonoBehaviour{
                 Interact();
             }
 
-            if(input.Player.Attack.triggered){
+            if(input.Player.Attack.triggered && !op.holdingItem){
                 Shoot();
                 isPlayingAnimation = true;
             }
 
             if(input.Player.Attack2.triggered){
                 Punch();
-                isPlayingAnimation = true;
             }
         }
         
@@ -204,17 +207,26 @@ public class PlayerController : MonoBehaviour{
     }
 
     private void Interact(){
-        //Debug.Log("interaction completed");     
-        Ray ray = new Ray(cameraObject.transform.position, cameraObject.transform.forward);//ray shooting directly from camera
-        RaycastHit hit;
+        //Debug.Log("interaction completed");    
+        if(op.holdingItem){
+            op.DropItem();
+        }
+        else{
+            Ray ray = new Ray(cameraObject.transform.position, cameraObject.transform.forward);//ray shooting directly from camera
+            RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, interactDistance)){
-            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-            if(interactable != null){
-                isPlayingAnimation = true;
-                anim.SetTrigger("Interact");
-                aSource.PlayOneShot(interactingSound);
-                interactable.Interact();
+            if (Physics.Raycast(ray, out hit, interactDistance)){
+                if(hit.collider.CompareTag("Pickup") && !op.holdingItem){
+                    op.PickupItem(hit.collider.gameObject);
+                }
+
+                IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+                if(interactable != null){
+                    isPlayingAnimation = true;
+                    anim.SetTrigger("Interact");
+                    aSource.PlayOneShot(interactingSound);
+                    interactable.Interact();
+                }
             }
         }
     }
@@ -226,9 +238,19 @@ public class PlayerController : MonoBehaviour{
     }
 
     private void Punch(){
+        if(op.holdingItem){
+            op.Throw();
+        }
+        else{
+        isPlayingAnimation = true;
         anim.SetTrigger("Punch");
         aSource.PlayOneShot(punchingSound);
         pm.Punch();
+        }
+    }
+
+    public bool IsSprinting(){
+        return sprinting;
     }
 
     private void OnCollisionEnter(Collision collision){

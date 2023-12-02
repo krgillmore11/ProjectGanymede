@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 3728040393154782168}
   - component: {fileID: 6629407894064983983}
   - component: {fileID: 1604243999177738843}
+  - component: {fileID: 6143807095750177767}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -146,10 +147,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.89166814
+  m_Height: 1.7833363
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: -0.059740067, y: 0.81255984, z: 0.1943205}
 --- !u!195 &6629407894064983983
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -185,5 +186,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  pc: {fileID: 0}
+  pm: {fileID: 0}
   maxSightDistance: 10
   hearingDistance: 5
+  damageDistance: 8.3
+  stoppingDistance: 3.99
+  chaseEndDistance: 20
+  wanderDistance: 10
+  wanderBreak: 5
+  attackBreak: 5
+--- !u!114 &6143807095750177767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8553032917457641357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d63dd97b0d03d5248b5c46ca5f0de16f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  damage: 5
+  shootRange: 100

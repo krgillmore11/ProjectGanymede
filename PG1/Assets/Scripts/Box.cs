@@ -5,7 +5,12 @@ using UnityEngine;
 
 public class Box : MonoBehaviour, IInteractable
 {
-    [SerializeField] Animator anim;
+
+    public Animator anim;
+
+    void Start(){
+        anim = GetComponent<Animator>();
+    }
 
 public void Interact(){
     Debug.Log("Box opened");

@@ -1,15 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Transactions;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
     public Camera cameraObject;
-    [SerializeField] int health = 100;
+    [SerializeField] int health;
+    [SerializeField] int Maxhealth = 100;
     [SerializeField] int damage = 100;
     [SerializeField] float shootRange = 100f;
     [SerializeField] float punchRange = 10f;
+
+    [SerializeField] HealthBar hb;
+
+    void Start(){
+        health = Maxhealth;
+        hb.SetMax(Maxhealth);
+    }
 
     public void Shoot(){
         Ray ray = new Ray(cameraObject.transform.position, cameraObject.transform.forward);//ray shooting directly from camera
@@ -17,9 +26,12 @@ public class PlayerManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, shootRange)){
             EnemyManager enemy = hit.collider.GetComponent<EnemyManager>();
-
+            Explodable ex = hit.collider.GetComponent<Explodable>();
             if (enemy != null){
                 enemy.TakeDamage(damage);
+            }
+            if (ex != null){
+                ex.Explode();
             }
         }
     }
@@ -51,6 +63,7 @@ public class PlayerManager : MonoBehaviour
 
     public void TakeDamage(int damage){
         health -= damage;
+        hb.SetHealth(health);
 
         if (health <= 0){
             Die();
@@ -58,6 +71,6 @@ public class PlayerManager : MonoBehaviour
     }
 
     void Die(){
-        Debug.Log("you dead");
+        //Debug.Log("you dead");
     }
 }
