@@ -9,8 +9,8 @@ public class SceneLoader : MonoBehaviour
         Application.Quit();
     }
 
-    public void LoadLevel(int index){
-        SceneManager.LoadScene(index);
+    public void LoadLevel(){
+        SceneManager.LoadScene("Level 1");
     }
 
 
