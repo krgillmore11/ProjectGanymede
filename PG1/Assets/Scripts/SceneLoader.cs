@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
+
 
 public class SceneLoader : MonoBehaviour
 {
@@ -13,5 +15,12 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene("Level 1");
     }
 
-
+    public void StartNewGame(){
+        string saveFilePath = "SaveData.json";
+        if (File.Exists(saveFilePath))
+        {
+            File.Delete(saveFilePath);
+        }
+        LoadLevel();
+    }
 }

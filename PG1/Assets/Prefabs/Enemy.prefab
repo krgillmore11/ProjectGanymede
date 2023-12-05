@@ -188,13 +188,16 @@ MonoBehaviour:
   player: {fileID: 0}
   pc: {fileID: 0}
   pm: {fileID: 0}
+  chasing: 0
+  wandering: 1
+  isAttacking: 0
   maxSightDistance: 10
   hearingDistance: 5
   damageDistance: 8.3
-  stoppingDistance: 3.99
+  stoppingDistance: 1.6
   chaseEndDistance: 20
-  wanderDistance: 10
-  wanderBreak: 5
+  wanderDistance: 20.96
+  wanderBreak: 0.67
   attackBreak: 5
 --- !u!114 &6143807095750177767
 MonoBehaviour:
@@ -210,4 +213,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   damage: 5
-  shootRange: 100

@@ -247,7 +247,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 846
+  m_VersionIndex: 849
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 8094215817033465470}
   - component: {fileID: 1506758079404868194}
   - component: {fileID: 6369329675562930637}
-  - component: {fileID: 781523544126374017}
+  - component: {fileID: 2548939836981013960}
   m_Layer: 0
   m_Name: Terminal
   m_TagString: Untagged
@@ -406,7 +406,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.9601755, y: 1.172574, z: 0.787601}
   m_Center: {x: 0.44471025, y: 0.5641848, z: -0.3451482}
---- !u!114 &781523544126374017
+--- !u!114 &2548939836981013960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -415,10 +415,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1993155809208009907}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7ad4de82a820044a9a0e044a8248c5d, type: 3}
+  m_Script: {fileID: 11500000, guid: fe3608be73ef1424eb4bdcd991d05be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 1506758079404868194}
+  anim: {fileID: 0}
+  saveStation: {fileID: 0}
 --- !u!1 &2062444122114095401
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,7 +668,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 2122
+  m_VersionIndex: 2125
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1030,7 +1031,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 2836
+  m_VersionIndex: 2839
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

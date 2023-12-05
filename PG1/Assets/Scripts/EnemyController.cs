@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,9 +9,9 @@ public class EnemyController : MonoBehaviour
     public PlayerController pc;
     private EnemyManager em;
     public PlayerManager pm;
-    bool chasing = false;
-    bool wandering = true;
-    bool isAttacking;
+    public bool chasing = false;
+    public bool wandering = true;
+    public bool isAttacking;
     [SerializeField] float maxSightDistance = 20f;
     [SerializeField] float hearingDistance = 5f;
     [SerializeField] float damageDistance = 4f;
@@ -40,7 +38,7 @@ public class EnemyController : MonoBehaviour
         if (chasing){
             Chase();
         }
-        else if(!wandering){
+        else{
             StartWander();
         }
         if (chasing && distanceToPlayer > chaseEndDistance){

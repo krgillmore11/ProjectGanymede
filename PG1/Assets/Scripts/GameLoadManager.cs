@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
+[ExecuteAlways]
 public class GameLoadManager : MonoBehaviour
 {
     public GameObject player;
 
-    /*void Start()
+    void Start()
     {
         LoadGameState();
-    }*/
+        Debug.Log("load called on awake");
+    }
 
     public void LoadGameState(){
         if (File.Exists("SaveData.json")){

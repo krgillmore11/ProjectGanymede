@@ -1,8 +1,6 @@
-using System;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using System.Collections;
 //Handles all ingame Movment for player character
 //ADD SOUNDS AND CHANGE HEARING DISTANCE FOR ENEMY
 
@@ -10,6 +8,9 @@ public class PlayerController : MonoBehaviour{
     private PlayerInput input;
     private Rigidbody rb;
     private bool sprinting = false;
+    private bool sprintOnCooldown = false;
+    public float sprintTimer = 0f;
+    //public float sprintCooldownTimer = 0f;
     private bool grounded;
     public bool isPlayingAnimation = false;
     public Transform playerCam;
@@ -21,6 +22,7 @@ public class PlayerController : MonoBehaviour{
     private float lastStepTime;
     private PlayerManager pm;
     private ObjectPickup op;
+
    
 
 
@@ -41,6 +43,8 @@ public class PlayerController : MonoBehaviour{
     [SerializeField] AudioClip punchingSound;
     [SerializeField] AudioClip interactingSound;
     [SerializeField] PauseMenu psm;
+    [SerializeField] float sprintDuration = 5f;  
+    [SerializeField] float sprintCooldown = 10f;
 
     void Awake(){//Awake is good for setting up references
 
@@ -62,6 +66,7 @@ public class PlayerController : MonoBehaviour{
     void FixedUpdate(){  //Use for physics and rb ONLY
         CameraRotation();    
         PlaySounds();
+        SprintTimer();
 
         //Debug.Log(rb.velocity);
         
@@ -203,8 +208,11 @@ public class PlayerController : MonoBehaviour{
     }
 
     private void SprintToggle(InputAction.CallbackContext context){
-        if (context.performed){
+        if (context.performed && !sprintOnCooldown){
             sprinting = !sprinting;
+            if (sprinting){
+                sprintTimer = sprintDuration;
+            }
             //Debug.Log(sprinting);
         }
     }
@@ -255,6 +263,23 @@ public class PlayerController : MonoBehaviour{
     public bool IsSprinting(){
         return sprinting;
     }
+
+    void SprintTimer(){
+        if (sprinting){
+            sprintTimer -= Time.fixedDeltaTime;
+            if (sprintTimer <= 0f){
+                sprinting = false;
+                sprintTimer = 0f;
+                StartCoroutine(StartSprintCooldown());
+            }
+        }
+    }
+
+    private IEnumerator StartSprintCooldown(){
+        sprintOnCooldown = true;
+        yield return new WaitForSeconds(sprintCooldown);
+        sprintOnCooldown = false;
+}
 
     private void OnCollisionEnter(Collision collision){
         if (collision.gameObject.CompareTag("Ground")){
