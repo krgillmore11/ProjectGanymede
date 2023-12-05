@@ -33,14 +33,14 @@ public class PlayerController : MonoBehaviour{
     [SerializeField] float sprintMultiplier = 1.5f;
     [SerializeField] float mouseSensitivity = 2f;
     [SerializeField] float deceleration = 2f;
-    [SerializeField] float maxSpeed = 1f;
+    //[SerializeField] float maxSpeed = 1f;
     [SerializeField] float interactDistance = 3f;
-    [SerializeField] float stepCoolDown = 0.5f;
     [SerializeField] AudioClip walkingSound;
     [SerializeField] AudioClip runningSound;
     [SerializeField] AudioClip shootingSound;
     [SerializeField] AudioClip punchingSound;
     [SerializeField] AudioClip interactingSound;
+    [SerializeField] PauseMenu psm;
 
     void Awake(){//Awake is good for setting up references
 
@@ -147,8 +147,7 @@ public class PlayerController : MonoBehaviour{
     else
     {
     
-        if (walkSource.isPlaying)
-        {
+        if (walkSource.isPlaying){
             walkSource.Stop();
         }
     }
@@ -167,6 +166,10 @@ public class PlayerController : MonoBehaviour{
 
             if(input.Player.Attack2.triggered){
                 Punch();
+            }
+
+            if(input.Player.Menu.triggered){
+                psm.TogglePauseMenu();
             }
         }
         

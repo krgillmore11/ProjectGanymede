@@ -8,7 +8,7 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField] int health = 100;
     [SerializeField] int damage = 100;
-    [SerializeField] float shootRange = 100f;
+    //[SerializeField] float shootRange = 100f;
     EnemyController ec;
 
     void Start(){

@@ -8,7 +8,7 @@ public class ObjectPickup : MonoBehaviour
     public bool holdingItem = false;
     private GameObject heldItem;
     [SerializeField] float throwForce = 10f;
-    [SerializeField] float pickupDistance = 5f;
+    //[SerializeField] float pickupDistance = 5f;
 
     void Update(){
         if (holdingItem){
