@@ -118,7 +118,7 @@ Transform:
   m_Children:
   - {fileID: 7882883015806064656}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4638448872797505374
 MeshFilter:
@@ -199,6 +199,10 @@ MonoBehaviour:
   wanderDistance: 20.96
   wanderBreak: 0.67
   attackBreak: 5
+  attackSound: {fileID: 8300000, guid: d66a62769b60dfa458c7e8cfe2b7df41, type: 3}
+  chaseSound: {fileID: 8300000, guid: 6d841349ff92f7849937b44867149239, type: 3}
+  attackParticle: {fileID: 516614810080476839, guid: 18cb2d81797a4f44e949ac3ba5175b3a,
+    type: 3}
 --- !u!114 &6143807095750177767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,3 +221,5 @@ MonoBehaviour:
     type: 3}
   halfHealthParticle: {fileID: 1348631928614724, guid: 250e86a7819757142b6510e936ec4abf,
     type: 3}
+  breakingSound: {fileID: 8300000, guid: 08fe6e4f0b7ae814d8f9f1e8d317cc46, type: 3}
+  deathSound: {fileID: 8300000, guid: 0fca6a5d4d359994d8a41203fae2ac3d, type: 3}

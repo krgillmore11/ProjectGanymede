@@ -10,12 +10,22 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] float punchRange = 10f;
     [SerializeField] Transform gunBarrellT;
     [SerializeField] GameObject shootParticle;
+    [SerializeField] int partsNeeded = 0;
 
     [SerializeField] HealthBar hb;
+
+    public int genParts = 0;
+    public bool Level1Cleared = false;
 
     void Start(){
         health = Maxhealth;
         hb.SetMax(Maxhealth);
+    }
+
+    void Update(){
+        if(genParts >= partsNeeded){
+            Level1Cleared = true;
+        }
     }
 
     public void Shoot(){
@@ -66,6 +76,15 @@ public class PlayerManager : MonoBehaviour
         if (health <= 0){
             Die();
         }
+    }
+
+    public void heal(int healAmount){
+        if(health + healAmount <= Maxhealth){
+            health += healAmount;
+            hb.SetHealth(health);
+        }
+        
+
     }
 
     void Die(){

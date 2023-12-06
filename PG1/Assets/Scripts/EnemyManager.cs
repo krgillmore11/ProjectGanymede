@@ -10,6 +10,8 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] int damage = 100;
     [SerializeField] GameObject dieParticle;
     [SerializeField] GameObject halfHealthParticle;
+    [SerializeField] AudioClip breakingSound;
+    [SerializeField] AudioClip deathSound;
     //[SerializeField] float shootRange = 100f;
     EnemyController ec;
     bool halfHealthMet = false;
@@ -23,6 +25,7 @@ public class EnemyManager : MonoBehaviour
     void Update(){
         if(health <= startingHealth/2 && !halfHealthMet){
             Instantiate(halfHealthParticle, transform.position, Quaternion.identity);
+            AudioSource.PlayClipAtPoint(breakingSound, transform.position);
             halfHealthMet = true;
         }
     }
@@ -48,6 +51,7 @@ public class EnemyManager : MonoBehaviour
 
         if (playerCol != null){
             int playerDamage = playerCol.getDamage();
+
             TakeDamage(playerDamage);
         }
     }
@@ -57,12 +61,13 @@ public class EnemyManager : MonoBehaviour
         ec.StartChase();//if enemy takes damage chase
 
         if (health <= 0){
-            Instantiate(halfHealthParticle, transform.position, Quaternion.identity);
+            Instantiate(dieParticle, transform.position, Quaternion.identity);
             Die();
         }
     }
 
     void Die(){
+        AudioSource.PlayClipAtPoint(deathSound, transform.position);
         Destroy(gameObject);
     }
 }

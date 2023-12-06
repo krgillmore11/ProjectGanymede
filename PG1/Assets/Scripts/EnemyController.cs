@@ -12,6 +12,8 @@ public class EnemyController : MonoBehaviour
     public bool chasing = false;
     public bool wandering = true;
     public bool isAttacking;
+    float distanceToPlayer;
+    bool chaseSoundStarted = false;
     [SerializeField] float maxSightDistance = 20f;
     [SerializeField] float hearingDistance = 5f;
     [SerializeField] float damageDistance = 4f;
@@ -20,6 +22,9 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float wanderDistance = 10f;
     [SerializeField] float wanderBreak = 5f;
     [SerializeField] float attackBreak = 5f;
+    [SerializeField] AudioClip attackSound;
+    [SerializeField] AudioClip chaseSound;
+    [SerializeField] GameObject attackParticle;
 
 
     // Start is called before the first frame update
@@ -33,7 +38,7 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
         if (chasing){
             Chase();
@@ -58,6 +63,7 @@ public class EnemyController : MonoBehaviour
             StartChase();
         }
         if(distanceToPlayer <= damageDistance && chasing && !isAttacking){
+            Debug.Log("Made it to start couroutine");
             StartCoroutine(AttackBreak());
         }
     }
@@ -67,18 +73,22 @@ public class EnemyController : MonoBehaviour
     public void StartChase(){
         chasing = true;
         wandering = false;
-        Debug.Log("Chasing");
+        if (!chaseSoundStarted){
+            AudioSource.PlayClipAtPoint(chaseSound, transform.position);
+            chaseSoundStarted = true;
+        }
+        //Debug.Log("Chasing");
     }
     void StopChase(){
         chasing = false;
         wandering = false;
+        chaseSoundStarted = false;
         Debug.Log("Stopped Chase");
     }
     void StartWander(){
         wandering = true;
         chasing = false;
         StartCoroutine(WanderBreak());
-        
     }
 
     IEnumerator WanderBreak(){
@@ -87,14 +97,17 @@ public class EnemyController : MonoBehaviour
             randomPoint.y = 0;
             Vector3 destination = transform.position + randomPoint;
             agent.SetDestination(destination);
-            Debug.Log("Wandering");
+            //Debug.Log("Wandering");
             yield return new WaitForSeconds(wanderBreak);
         }
     }
 
     IEnumerator AttackBreak(){
         isAttacking = true;
-        while (chasing){
+        while (chasing && distanceToPlayer <= damageDistance){
+        Debug.Log("Made it");
+        AudioSource.PlayClipAtPoint(attackSound, transform.position);
+        Instantiate(attackParticle, transform.position, Quaternion.identity);
         pm.TakeDamage(em.getDamage());
         Debug.Log("p took dam");
         yield return new WaitForSeconds(attackBreak);

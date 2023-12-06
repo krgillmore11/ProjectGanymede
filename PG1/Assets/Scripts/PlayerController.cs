@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour{
     [SerializeField] AudioClip shootingSound;
     [SerializeField] AudioClip punchingSound;
     [SerializeField] AudioClip interactingSound;
+    [SerializeField] AudioClip sprintEndSound;
     [SerializeField] PauseMenu psm;
     [SerializeField] float sprintDuration = 5f;  
     [SerializeField] float sprintCooldown = 10f;
@@ -276,6 +277,7 @@ public class PlayerController : MonoBehaviour{
     }
 
     private IEnumerator StartSprintCooldown(){
+        AudioSource.PlayClipAtPoint(sprintEndSound, transform.position);
         sprintOnCooldown = true;
         yield return new WaitForSeconds(sprintCooldown);
         sprintOnCooldown = false;

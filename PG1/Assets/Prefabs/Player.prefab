@@ -431,7 +431,7 @@ Transform:
   - {fileID: 8517827414555046313}
   - {fileID: 8559285260837236382}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &4318916088110459467
 CapsuleCollider:
@@ -485,6 +485,7 @@ MonoBehaviour:
   shootingSound: {fileID: 8300000, guid: 0bd05763df902854a80475577a26666a, type: 3}
   punchingSound: {fileID: 8300000, guid: 75adfe9a619833445a701305b983e548, type: 3}
   interactingSound: {fileID: 8300000, guid: 7bf426651a1ce3744862f8c163593356, type: 3}
+  sprintEndSound: {fileID: 8300000, guid: c90d5ac4fb939bf498069e3f04c22909, type: 3}
   psm: {fileID: 0}
   sprintDuration: 5
   sprintCooldown: 10
@@ -630,7 +631,8 @@ MonoBehaviour:
   shootRange: 100
   punchRange: 10
   gunBarrellT: {fileID: 1177811020659032449}
-  shootParticle: {fileID: 0}
+  shootParticle: {fileID: 8925450458521220985, guid: 1e5d51a91f484a7489ed3675f72a7391,
+    type: 3}
   hb: {fileID: 0}
 --- !u!114 &7217489678805156485
 MonoBehaviour:
