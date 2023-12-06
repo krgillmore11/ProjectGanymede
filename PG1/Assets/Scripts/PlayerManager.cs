@@ -8,6 +8,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] int damage = 100;
     [SerializeField] float shootRange = 100f;
     [SerializeField] float punchRange = 10f;
+    [SerializeField] Transform gunBarrellT;
+    [SerializeField] GameObject shootParticle;
 
     [SerializeField] HealthBar hb;
 
@@ -19,7 +21,7 @@ public class PlayerManager : MonoBehaviour
     public void Shoot(){
         Ray ray = new Ray(cameraObject.transform.position, cameraObject.transform.forward);//ray shooting directly from camera
         RaycastHit hit;
-
+        Instantiate(shootParticle, gunBarrellT.position, Quaternion.identity);
         if (Physics.Raycast(ray, out hit, shootRange)){
             EnemyManager enemy = hit.collider.GetComponent<EnemyManager>();
             Explodable ex = hit.collider.GetComponent<Explodable>();

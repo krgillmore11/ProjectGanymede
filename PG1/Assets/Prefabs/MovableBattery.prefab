@@ -35,7 +35,7 @@ Transform:
   m_Children:
   - {fileID: 8527847835586291938}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &7500732767917222131
 MeshCollider:
@@ -122,7 +122,8 @@ MonoBehaviour:
   explosionRadius: 8
   damageAmount: 20
   explosionSound: {fileID: 0}
-  explosionParticle: {fileID: 0}
+  explosionParticle: {fileID: 1368782967120030, guid: bdbdcfd7c511df246af535551f842df5,
+    type: 3}
 --- !u!82 &1310486056353878339
 AudioSource:
   m_ObjectHideFlags: 0

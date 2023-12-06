@@ -8,11 +8,23 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField] int health = 100;
     [SerializeField] int damage = 100;
+    [SerializeField] GameObject dieParticle;
+    [SerializeField] GameObject halfHealthParticle;
     //[SerializeField] float shootRange = 100f;
     EnemyController ec;
+    bool halfHealthMet = false;
+    int startingHealth;
 
     void Start(){
         ec = GetComponent<EnemyController>();
+        startingHealth = health;
+    }
+
+    void Update(){
+        if(health <= startingHealth/2 && !halfHealthMet){
+            Instantiate(halfHealthParticle, transform.position, Quaternion.identity);
+            halfHealthMet = true;
+        }
     }
 
     /*public void Shoot(){
@@ -45,6 +57,7 @@ public class EnemyManager : MonoBehaviour
         ec.StartChase();//if enemy takes damage chase
 
         if (health <= 0){
+            Instantiate(halfHealthParticle, transform.position, Quaternion.identity);
             Die();
         }
     }

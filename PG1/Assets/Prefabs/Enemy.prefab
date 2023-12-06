@@ -118,7 +118,7 @@ Transform:
   m_Children:
   - {fileID: 7882883015806064656}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4638448872797505374
 MeshFilter:
@@ -213,3 +213,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   damage: 5
+  dieParticle: {fileID: 1368782967120030, guid: bdbdcfd7c511df246af535551f842df5,
+    type: 3}
+  halfHealthParticle: {fileID: 1348631928614724, guid: 250e86a7819757142b6510e936ec4abf,
+    type: 3}
