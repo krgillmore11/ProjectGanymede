@@ -43,7 +43,7 @@ public class EnemyController : MonoBehaviour
         if (chasing){
             Chase();
         }
-        else{
+        else if (wandering){
             StartWander();
         }
         if (chasing && distanceToPlayer > chaseEndDistance){
@@ -81,25 +81,27 @@ public class EnemyController : MonoBehaviour
     }
     void StopChase(){
         chasing = false;
-        wandering = false;
+        wandering = true;
         chaseSoundStarted = false;
         Debug.Log("Stopped Chase");
     }
     void StartWander(){
-        wandering = true;
+        //wandering = true;
         chasing = false;
         StartCoroutine(WanderBreak());
+        Debug.Log("StartWander wander routeine");
     }
 
     IEnumerator WanderBreak(){
-        while (wandering){
+        wandering  = false;
             Vector3 randomPoint = Random.insideUnitSphere * wanderDistance;
             randomPoint.y = 0;
             Vector3 destination = transform.position + randomPoint;
             agent.SetDestination(destination);
             //Debug.Log("Wandering");
             yield return new WaitForSeconds(wanderBreak);
-        }
+                wandering  = true;;
+
     }
 
     IEnumerator AttackBreak(){

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-[ExecuteAlways]
 public class GameLoadManager : MonoBehaviour
 {
     public GameObject player;
@@ -21,6 +20,9 @@ public class GameLoadManager : MonoBehaviour
 
             //Load Player position
             player.transform.position = new Vector3(data.playerX, data.playerY, data.playerZ);
+        }
+        else{
+            Debug.Log("File does not exist");
         }
     }
 }

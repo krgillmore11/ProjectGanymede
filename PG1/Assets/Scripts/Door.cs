@@ -7,7 +7,7 @@ public class Door : MonoBehaviour, IInteractable
 {
     public Animator anim;
     public bool unlocked = true;
-    DialougueManager dm;
+    public DialougueManager dm;
     public string messageString = "Door is locked";
 
     void Start(){
@@ -20,7 +20,9 @@ public class Door : MonoBehaviour, IInteractable
             anim.SetTrigger("Open");
         }   
         else{
-            dm.ShowPopup(messageString, 3);
+            if(dm != null){
+                dm.ShowPopup(messageString, 3);
+            }
         }
     }
 }

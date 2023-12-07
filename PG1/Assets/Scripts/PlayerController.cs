@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour{
     private bool sprintOnCooldown = false;
     public float sprintTimer = 0f;
     //public float sprintCooldownTimer = 0f;
-    private bool grounded;
+    public bool grounded;
     public bool isPlayingAnimation = false;
     public Transform playerCam;
     private float rotationX = 0f;
@@ -284,16 +284,16 @@ public class PlayerController : MonoBehaviour{
 }
 
     private void OnCollisionEnter(Collision collision){
-        if (collision.gameObject.CompareTag("Ground")){
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Pickup")){
             grounded = true;
         }
     }
 
-    private void OnCollisionExit(Collision collision){
-        if (collision.gameObject.CompareTag("Ground")){
+    /*private void OnCollisionExit(Collision collision){
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Pickup")){
             grounded = false;
         }
-    }
+    }*/
 
     private void OnEnable(){
         input.Enable();

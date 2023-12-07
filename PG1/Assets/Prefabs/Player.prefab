@@ -431,7 +431,7 @@ Transform:
   - {fileID: 8517827414555046313}
   - {fileID: 8559285260837236382}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &4318916088110459467
 CapsuleCollider:
@@ -479,7 +479,7 @@ MonoBehaviour:
   sprintMultiplier: 1.96
   mouseSensitivity: 20.54
   deceleration: 2
-  interactDistance: 1.48
+  interactDistance: 2.86
   walkingSound: {fileID: 8300000, guid: 3610d597db7918e44906d575bd074616, type: 3}
   runningSound: {fileID: 8300000, guid: b16b005ddc0977b4aa402b5abce3205f, type: 3}
   shootingSound: {fileID: 8300000, guid: 0bd05763df902854a80475577a26666a, type: 3}
@@ -634,6 +634,7 @@ MonoBehaviour:
   shootParticle: {fileID: 8925450458521220985, guid: 1e5d51a91f484a7489ed3675f72a7391,
     type: 3}
   partsNeeded: 0
+  sl: {fileID: 0}
   hb: {fileID: 0}
   genParts: 0
   Level1Cleared: 0

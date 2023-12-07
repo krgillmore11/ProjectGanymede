@@ -20,6 +20,7 @@ public class SceneLoader : MonoBehaviour
     }
 
     public void LoadDeath(){
+        Cursor.lockState = CursorLockMode.None;//unlock cursor
         SceneManager.LoadScene("DeathScreen");
     }
 
