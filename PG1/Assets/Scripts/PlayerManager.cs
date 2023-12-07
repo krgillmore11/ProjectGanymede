@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] Transform gunBarrellT;
     [SerializeField] GameObject shootParticle;
     [SerializeField] int partsNeeded = 0;
+    [SerializeField] SceneLoader sl;
 
     [SerializeField] HealthBar hb;
 
@@ -83,11 +84,15 @@ public class PlayerManager : MonoBehaviour
             health += healAmount;
             hb.SetHealth(health);
         }
+        else{
+            health = Maxhealth;
+        }
         
 
     }
 
     void Die(){
+        sl.LoadDeath();
         //Debug.Log("you dead");
     }
 }

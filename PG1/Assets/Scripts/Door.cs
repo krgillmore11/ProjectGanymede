@@ -6,13 +6,21 @@ using UnityEngine;
 public class Door : MonoBehaviour, IInteractable
 {
     public Animator anim;
+    public bool unlocked = true;
+    DialougueManager dm;
+    public string messageString = "Door is locked";
 
     void Start(){
         anim = GetComponent<Animator>();
     }
 
-public void Interact(){
-    Debug.Log("Door Opened");
-    anim.SetTrigger("Open");
-}
+    public void Interact(){
+        if(unlocked){
+            Debug.Log("Door Opened");
+            anim.SetTrigger("Open");
+        }   
+        else{
+            dm.ShowPopup(messageString, 3);
+        }
+    }
 }

@@ -431,7 +431,7 @@ Transform:
   - {fileID: 8517827414555046313}
   - {fileID: 8559285260837236382}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &4318916088110459467
 CapsuleCollider:
@@ -633,7 +633,10 @@ MonoBehaviour:
   gunBarrellT: {fileID: 1177811020659032449}
   shootParticle: {fileID: 8925450458521220985, guid: 1e5d51a91f484a7489ed3675f72a7391,
     type: 3}
+  partsNeeded: 0
   hb: {fileID: 0}
+  genParts: 0
+  Level1Cleared: 0
 --- !u!114 &7217489678805156485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -743,6 +746,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -91.153
+      objectReference: {fileID: 0}
+    - target: {fileID: 6346943630114122115, guid: d8a1d3c7fb8368b40b00e8a3023a3cdd,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7110272131405431370, guid: d8a1d3c7fb8368b40b00e8a3023a3cdd,
         type: 3}
@@ -1067,6 +1075,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 136.43521
+      objectReference: {fileID: 0}
+    - target: {fileID: -1647038898412031043, guid: e339ff6ad26a08e459cf0c13ce0b9a6a,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -1647038898412031043, guid: e339ff6ad26a08e459cf0c13ce0b9a6a,
         type: 3}

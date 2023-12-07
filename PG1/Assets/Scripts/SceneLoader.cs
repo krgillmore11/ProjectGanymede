@@ -15,6 +15,14 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene("Level 1");
     }
 
+    public void LoadMain(){
+        SceneManager.LoadScene("Main Menu");
+    }
+
+    public void LoadDeath(){
+        SceneManager.LoadScene("DeathScreen");
+    }
+
     public void StartNewGame(){
         string saveFilePath = "SaveData.json";
         if (File.Exists(saveFilePath))

@@ -2142,6 +2142,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2914153307813781581, guid: ff79c683ad692484890568c92209d944,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5827909826116909195, guid: ff79c683ad692484890568c92209d944,
         type: 3}
       propertyPath: m_Pivot.x
