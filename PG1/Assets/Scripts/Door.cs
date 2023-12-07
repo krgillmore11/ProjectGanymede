@@ -18,6 +18,7 @@ public class Door : MonoBehaviour, IInteractable
         if(unlocked){
             Debug.Log("Door Opened");
             anim.SetTrigger("Open");
+            gameObject.layer = 2;
         }   
         else{
             if(dm != null){

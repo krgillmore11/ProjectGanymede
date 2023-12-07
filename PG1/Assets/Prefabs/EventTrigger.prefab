@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &4853863759230634438
 BoxCollider:
@@ -52,8 +52,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.95013845, y: 3.9144192, z: 5.5504913}
+  m_Center: {x: -0.024930656, y: 1.4572096, z: -0.45367432}
 --- !u!114 &60817564763584955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,7 +67,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundEffect: {fileID: 0}
-  popupMessage: Popup Test
+  audioSource: {fileID: 0}
+  popupMessage: 
   popupDuration: 3
   flagName: 
   flagManager: {fileID: 0}

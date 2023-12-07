@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionRadius: 8
-  damageAmount: 20
+  damageAmount: 30
   explosionSound: {fileID: 8300000, guid: a9d97498e8e987143a0cd2f0f1083c20, type: 3}
   explosionParticle: {fileID: 1368782967120030, guid: bdbdcfd7c511df246af535551f842df5,
     type: 3}

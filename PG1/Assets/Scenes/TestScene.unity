@@ -4797,6 +4797,11 @@ PrefabInstance:
       propertyPath: hb
       value: 
       objectReference: {fileID: 254297631}
+    - target: {fileID: 1261136881504637310, guid: 0da513e544a193746944e8bd7b346ed1,
+        type: 3}
+      propertyPath: shootRange
+      value: 40.6
+      objectReference: {fileID: 0}
     - target: {fileID: 1478812117085874694, guid: 0da513e544a193746944e8bd7b346ed1,
         type: 3}
       propertyPath: psm

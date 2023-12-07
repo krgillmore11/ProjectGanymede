@@ -5,7 +5,7 @@ using UnityEngine;
 public class Explodable : MonoBehaviour
 {
     [SerializeField] float explosionRadius = 8f;
-    [SerializeField] int damageAmount = 20;
+    [SerializeField] int damageAmount = 30;
     [SerializeField] AudioClip explosionSound;
     [SerializeField] GameObject explosionParticle;
 
